@@ -1,6 +1,9 @@
 package com.hana.repository;
 
 import com.hana.data.CustDto;
+import com.hana.exception.DuplicatedIdException;
+import com.hana.exception.IdNotFoundException;
+import com.hana.exception.NotFoundException;
 import com.hana.frame.Dao;
 
 import java.util.ArrayList;
@@ -8,31 +11,46 @@ import java.util.List;
 
 public class CustDao implements Dao<String, CustDto> {
     @Override
-    public int insert(CustDto custDto) {
+    public int insert(CustDto custDto) throws DuplicatedIdException {
         //System.out.println("Duplicated ID Exception ... ");
+        if (custDto.getId().equals("id01")) {
+            throw new DuplicatedIdException("EX0001");
+        }
         System.out.println("Oracle DB: Inserted ... " + custDto);
         return 0;
     }
 
     @Override
-    public int delete(String s) {
+    public int delete(String s) throws IdNotFoundException {
+        if (s.equals("errorTest")) {
+            throw new IdNotFoundException("EX0002");
+        }
         System.out.println("Oracle DB: Deleted ... " + s);
         return 0;
     }
 
     @Override
-    public int update(CustDto custDto) {
+    public int update(CustDto custDto) throws IdNotFoundException{
+        if (custDto.getId().equals("id01")) {
+            throw new IdNotFoundException("EX0001");
+        }
         System.out.println("Oracle DB: Updated ... " + custDto);
         return 0;
     }
 
     @Override
-    public CustDto select(String s) {
+    public CustDto select(String s) throws NotFoundException {
+        if (s.equals("errorTest")) {
+            throw new NotFoundException("EX0003");
+        }
         return CustDto.builder().id(s).pwd("pwd01").name("James").build();
     }
 
     @Override
-    public List<CustDto> select() {
+    public List<CustDto> select() throws NotFoundException{
+        if (true) {
+            throw new NotFoundException("EX0003");
+        }
         List list = new ArrayList<CustDto>();
         list.add(CustDto.builder().id("id01").pwd("pwd01").name("James").build());
         list.add(CustDto.builder().id("id02").pwd("pwd02").name("Tom").build());

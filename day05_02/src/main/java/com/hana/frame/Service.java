@@ -1,11 +1,15 @@
 package com.hana.frame;
 
+import com.hana.exception.DuplicatedIdException;
+import com.hana.exception.IdNotFoundException;
+import com.hana.exception.NotFoundException;
+
 import java.util.List;
 
 public interface Service<K, V> {
-    int add(V v); // public abstract int insert(); ...추상 메소드
-    int del(K k);
-    int modify(V v);
-    V get(K k);
-    List<V> get();
+    int add(V v) throws DuplicatedIdException; // public abstract int insert(); ...추상 메소드
+    int del(K k) throws IdNotFoundException;
+    int modify(V v) throws IdNotFoundException;
+    V get(K k) throws NotFoundException;
+    List<V> get() throws NotFoundException;
 }

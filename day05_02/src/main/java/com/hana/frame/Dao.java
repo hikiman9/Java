@@ -1,5 +1,9 @@
 package com.hana.frame;
 
+import com.hana.exception.DuplicatedIdException;
+import com.hana.exception.IdNotFoundException;
+import com.hana.exception.NotFoundException;
+
 import java.util.List;
 
 public interface Dao<K, V>{
@@ -9,9 +13,9 @@ public interface Dao<K, V>{
      * @param v: CustDto
      * @return int
      */
-    int insert(V v); // public abstract int insert(); ...추상 메소드
-    int delete(K k);
-    int update(V v);
-    V select(K k);
-    List<V> select();
+    int insert(V v) throws DuplicatedIdException; // public abstract int insert(); ...추상 메소드
+    int delete(K k) throws IdNotFoundException;
+    int update(V v) throws IdNotFoundException;
+    V select(K k) throws NotFoundException;
+    List<V> select() throws NotFoundException;
 }

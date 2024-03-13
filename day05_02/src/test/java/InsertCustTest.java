@@ -1,9 +1,10 @@
 import com.hana.data.CustDto;
 import com.hana.exception.DuplicatedIdException;
+import com.hana.exception.IdNotFoundException;
 import com.hana.frame.Service;
 import com.hana.service.CustService;
 
-public class Main {
+public class InsertCustTest {
     public static void main(String[] args) {
         Service<String, CustDto> service = new CustService();
 
