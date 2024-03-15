@@ -24,17 +24,15 @@ public class Jdbc5 {
             e.printStackTrace();
         }
         // 3. SQL 구문 생성
-        String insertSql = "UPDATE db_cust SET pwd = ? , name = ? WHERE id = ?";
+        String deleteSql = "DELETE FROM db_cust WHERE id = ?";
         PreparedStatement pstmt = null;
         try {
-            pstmt = con.prepareStatement(insertSql);
-            pstmt.setString(1,"pwd03");
-            pstmt.setString(2,"이말숙");
-            pstmt.setString(3,"id03");
+            pstmt = con.prepareStatement(deleteSql);
+            pstmt.setString(1,"id03");
 
             //4. 전송
-            pstmt.executeUpdate();
-            System.out.println("Updated Data .....");
+            int result = pstmt.executeUpdate();
+            System.out.println("Deleted Data ....."+result);
         } catch (SQLException e) {
             e.printStackTrace();
             System.out.println("SQL Error");

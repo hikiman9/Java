@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 public class CustService implements Service<String, CustDto> {
 
@@ -29,7 +30,6 @@ public class CustService implements Service<String, CustDto> {
         try {
             con.setAutoCommit(false);
             repository.insert(custDto, con);
-            repository.insert(custDto, con);
             con.commit();
         } catch (Exception e) {
             con.rollback();
@@ -42,21 +42,67 @@ public class CustService implements Service<String, CustDto> {
 
     @Override
     public CustDto modify(CustDto custDto) throws NotFoundException, Exception {
+        Connection con = cp.getConnection();
+        try {
+            con.setAutoCommit(false);
+            repository.update(custDto, con);
+            con.commit();
+        } catch (Exception e) {
+            con.rollback();
+            throw e;
+        } finally {
+            cp.releaseConnection(con);
+        }
         return null;
     }
 
     @Override
     public Boolean remove(String s) throws NotFoundException, Exception {
+        Connection con = cp.getConnection();
+        try {
+            con.setAutoCommit(false);
+            repository.delete(s, con);
+            con.commit();
+        } catch (Exception e) {
+            con.rollback();
+            throw e;
+        } finally {
+            cp.releaseConnection(con);
+        }
         return null;
     }
 
     @Override
     public List<CustDto> get() throws Exception {
-        return null;
+        Connection con = cp.getConnection();
+        List<CustDto> result = null;
+        try {
+            con.setAutoCommit(false);
+            result = repository.select(con);
+            con.commit();
+        } catch (Exception e) {
+            con.rollback();
+            throw e;
+        } finally {
+            cp.releaseConnection(con);
+        }
+        return result;
     }
 
     @Override
     public CustDto get(String s) throws NotFoundException, Exception {
-        return null;
+        Connection con = cp.getConnection();
+        CustDto result = null;
+        try {
+            con.setAutoCommit(false);
+            result = repository.select(s, con);
+            con.commit();
+        } catch (Exception e) {
+            con.rollback();
+            throw e;
+        } finally {
+            cp.releaseConnection(con);
+        }
+        return result;
     }
 }

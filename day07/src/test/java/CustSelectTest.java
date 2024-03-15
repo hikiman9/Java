@@ -1,14 +1,14 @@
 import com.hana.data.CustDto;
 import com.hana.service.CustService;
-import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
-public class CustInsertTest {
+import java.util.List;
+
+public class CustSelectTest {
     public static void main(String[] args) {
         CustService service = new CustService();
-        CustDto obj = CustDto.builder().id("id10").pwd("pwd10").name("Aden").build();
         try{
-            service.add(obj);
+            CustDto result = service.get("id01");
+            System.out.println(result);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
